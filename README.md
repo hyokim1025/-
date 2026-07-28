@@ -1,169 +1,467 @@
-<div align="center">
+# 서울시 모기예보제 머신러닝 프로젝트
 
-  <img src="./assets/modupick-landing.png" alt="MODU-PICK 메인 화면" width="100%" />
+## 1. 프로젝트 개요
 
-  <h1>MODU-PICK</h1>
+본 프로젝트는 서울시의 모기 발생량을 예측하기 위해 **기상 데이터와 모기포집량 데이터를 결합**하고, 머신러닝 모델을 활용하여 일별 모기 발생량을 예측하는 프로젝트이다.
 
-  <p><strong>모두가 납득하는 유쾌한 선택</strong></p>
-  <p>
-    팀장·역할·팀명을 정할 때 생기는 눈치 싸움과 감정 소모를<br />
-    실시간 미니게임으로 바꾸는 게임형 의사결정 플랫폼입니다.
-  </p>
-
-  <p>
-    <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" alt="React" />
-    <img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" />
-    <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI" />
-    <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-    <img src="https://img.shields.io/badge/Native_WebSocket-010101?style=flat-square" alt="Native WebSocket" />
-    <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" />
-    <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white" alt="Kubernetes" />
-  </p>
-
-  <p>
-    <a href="https://app.notion.com/p/7-28-e6fde0c692b883b18f3d019ed917e9b8?source=copy_link">Project Notion</a>
-    ·
-    <a href="https://www.figma.com/design/IIqIz0uigrSQJnyTDKDsg6/%EB%AA%B0%EC%9E%85-%EB%94%94%EC%9E%90%EC%9D%B8?node-id=0-1">Figma Design</a>
-    ·
-    <a href="https://github.com/SunMoonUniv">GitHub Organization</a>
-  </p>
-
-</div>
+기존의 단순 예보 방식에서 나아가, 기온, 강수량, 습도, 풍속, 일사량, 지면온도, 지중온도 등의 기상 요인을 활용하여 모기 발생량과의 관계를 분석하고 예측 모델을 구축하는 것을 목표로 한다.
 
 ---
 
-## MODU-PICK은 어떤 서비스인가요?
+## 2. 프로젝트 목적
 
-조별 과제, 스터디, 해커톤, 사내 TF처럼 처음 만난 팀에서는 팀장·역할·팀명처럼 사소하지만 꼭 필요한 결정을 내리는 데 생각보다 많은 시간이 듭니다.
+* 서울시 모기 발생량 예측 모델 구축
+* 기상 요인과 모기포집량 사이의 관계 분석
+* 과거 데이터를 기반으로 향후 모기 발생 위험도 예측
+* 기존 모기예보제보다 데이터 기반의 예측 정확도 향상 가능성 탐색
+* 향후 웹/앱 서비스와 연동 가능한 예측 시스템 기반 마련
 
-MODU-PICK은 이 과정을 **설치와 로그인 없이 바로 참여할 수 있는 실시간 미니게임**으로 바꿉니다. 방을 만들고 초대 코드를 공유하면 팀원들이 동시에 접속해 채팅하고, 준비 상태를 맞춘 뒤, 모두가 같은 결과를 보는 게임으로 결정을 끝낼 수 있습니다.
+---
 
-> **핵심 가치:** 빠른 아이스브레이킹 · 공정한 결과 · 무지연 실시간 동기화
+## 3. 사용 데이터
 
-## 핵심 기능
+본 프로젝트에서는 크게 두 종류의 데이터를 사용하였다.
 
-- **로그인 없는 빠른 시작** — 방 생성 또는 6자리 초대 코드 입력만으로 참여합니다.
-- **개성 있는 프로필** — 닉네임, 캐릭터, GitHub 아이디 등의 소개 태그를 설정합니다.
-- **실시간 대기방** — 입장·퇴장, Ready 상태, 채팅, 타이핑 상태를 모든 참여자에게 동기화합니다.
-- **방장 중심의 게임 설정** — 방장이 게임과 옵션을 고르고, 팀원은 변경 내용을 실시간으로 확인합니다.
-- **6종 의사결정 게임** — 무작위 추첨, 역할 배분, 익명 투표, 순발력 게임을 상황에 맞게 선택합니다.
-- **서버가 확정하는 공정한 결과** — 무작위 결과와 시간 판정을 서버 기준으로 처리해 모든 화면에 같은 결과를 보여줍니다.
-- **게임 이후에도 이어지는 흐름** — 결과 확인 후 다시 하기 또는 대기방 복귀를 선택할 수 있습니다.
+### 3.1 ASOS 기상 데이터
 
-## 주요 화면
+서울 지역의 기상 관측 데이터를 사용하였다.
 
-<table>
-  <tr>
-    <td width="50%">
-      <img src="./assets/modupick-lobby.png" alt="실시간 대기방" width="100%" />
-    </td>
-    <td width="50%">
-      <img src="./assets/modupick-roulette.png" alt="운명의 룰렛" width="100%" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center"><strong>실시간 대기방</strong><br />참여자, 채팅, Ready 상태, 게임 설정을 한 화면에서 관리합니다.</td>
-    <td align="center"><strong>운명의 룰렛</strong><br />모든 참여자의 화면에서 동일한 룰렛과 결과를 보여줍니다.</td>
-  </tr>
-</table>
+주요 변수는 다음과 같다.
 
-<p align="center">
-  <img src="./assets/modupick-kingmaker.png" alt="킹메이커 익명 투표" width="82%" />
-</p>
-<p align="center">
-  <strong>킹메이커</strong><br />
-  아이디어를 익명으로 제출하고 투표해 팀명·프로젝트명·메뉴 등을 결정합니다.
-</p>
+| 변수명      | 설명               |
+| -------- | ---------------- |
+| 기온       | 일별 평균, 최고, 최저 기온 |
+| 강수량      | 일별 누적 강수량        |
+| 강수 시간    | 강수 발생 시간         |
+| 풍속       | 평균 풍속, 최대 풍속     |
+| 습도       | 평균, 최소, 최대 습도    |
+| 일사량      | 일별 누적 일사량        |
+| 지면온도     | 평균, 최고, 최저 지면온도  |
+| 5cm 지중온도 | 평균 지중온도          |
 
-## 6개의 미니게임
+### 3.2 DMS 모기포집량 데이터
 
-| Game | 이름 | 결정하는 방법 | 활용 예시 |
-| :---: | --- | --- | --- |
-| 01 | **운명의 룰렛** | 참여자 중 한 명을 공정하게 무작위 추첨 | 팀장, 발표자, 벌칙 정하기 |
-| 02 | **랜덤 사다리** | 참여자와 여러 역할을 한 번에 연결 | PPT, 자료 조사, 발표 역할 분담 |
-| 03 | **킹메이커** | 익명 의견 제출 후 투표로 최종 선택 | 팀명, 프로젝트명, 메뉴 정하기 |
-| 04 | **시간초 잡기** | 목표 시간에 가장 가깝게 타이머 정지 | 순서, 당첨자, 벌칙 대상 정하기 |
-| 05 | **익명 저격** | 질문에 맞는 참여자를 제한 시간 안에 익명 지목 | 숨은 능력자 찾기, 아이스브레이킹 |
-| 06 | **눈치게임** | 순서가 겹치지 않게 버튼을 누르고 마지막까지 생존 | 순발력 기반 역할·순서 정하기 |
+DMS 모기포집 장비를 통해 수집된 일별 모기포집량 데이터를 사용하였다.
 
-## 사용자 흐름
+주요 변수는 다음과 같다.
 
-1. 방장이 방을 만들고 초대 코드를 공유합니다.
-2. 팀원은 코드를 입력하고 닉네임과 캐릭터를 설정합니다.
-3. 모두 대기방에 들어와 채팅하고 `준비 완료`를 누릅니다.
-4. 방장이 게임과 옵션을 설정한 뒤 게임을 시작합니다.
-5. 모든 참여자가 동기화된 게임 화면에서 함께 플레이합니다.
-6. 결과를 확인한 뒤 다시 하거나 대기방으로 돌아갑니다.
+| 변수명            | 설명        |
+| -------------- | --------- |
+| date           | 날짜        |
+| trap_total     | 전체 포집량    |
+| mosquito_count | 모기 포집량    |
+| other_count    | 기타 곤충 포집량 |
 
-## 목표 아키텍처
+본 프로젝트에서는 `mosquito_count`를 예측 대상 변수로 사용하였다.
 
-```mermaid
-flowchart LR
-    U["참여자 브라우저"] --> N["Nginx"]
-    N --> F["React + Vite"]
-    F <-->|"REST API / Native WebSocket"| B["FastAPI"]
-    B --> P[("PostgreSQL")]
-    B -. "다중 Pod 확장 시" .-> R[("Redis")]
-    G["GitHub Actions"] --> K["Kubernetes"]
-    K --> N
+---
+
+## 4. 데이터 기간
+
+| 구분        | 기간            |
+| --------- | ------------- |
+| 학습 데이터    | 2015년 ~ 2023년 |
+| 테스트 데이터 1 | 2024년         |
+| 테스트 데이터 2 | 2025년         |
+
+기존에는 2025년 데이터만 테스트셋으로 사용할 수 있었으나, 테스트 데이터가 1개 연도에만 한정될 경우 일반화 성능을 평가하기 어렵기 때문에 2024년과 2025년을 각각 테스트셋으로 분리하여 평가하였다.
+
+---
+
+## 5. 프로젝트 구조
+
+```text
+mosquito-forecast-project/
+│
+├── data/
+│   ├── raw/
+│   │   ├── ASOS_15년.csv
+│   │   ├── ASOS_16년.csv
+│   │   ├── ...
+│   │   ├── DMS모기포집량_15년.csv
+│   │   ├── DMS모기포집량_16년.csv
+│   │   └── ...
+│   │
+│   └── processed/
+│       ├── asos_selected_hourly_2015_2025.csv
+│       ├── asos_selected_daily_2015_2025.csv
+│       ├── dms_mosquito_daily_2015_2025.csv
+│       ├── dms_asos_daily_inner_2015_2025.csv
+│       ├── dms_asos_train_2015_2023_clean.csv
+│       ├── dms_asos_test_2024_clean.csv
+│       ├── dms_asos_test_2025_clean.csv
+│       ├── model_metrics.csv
+│       ├── model_metrics_lag_rolling.csv
+│       └── best_model_feature_importance_lag_rolling.csv
+│
+├── notebooks/
+│   └── mosquito_forecast_modeling.ipynb
+│
+├── src/
+│   ├── preprocessing.py
+│   ├── feature_engineering.py
+│   ├── modeling.py
+│   └── evaluation.py
+│
+├── app/
+│   └── backend/
+│
+├── README.md
+└── requirements.txt
 ```
 
-MVP에서는 Ready·온라인 여부·현재 소켓처럼 수명이 짧은 상태를 서버 메모리에서 관리하고, 방·참여자·게임 회차·투표·최종 결과처럼 복구가 필요한 데이터만 PostgreSQL에 저장합니다. 여러 서버 인스턴스로 확장할 때 Redis 도입을 고려합니다.
+---
 
-## 기술 스택
+## 6. 데이터 전처리 과정
 
-| 영역 | 기술 | 선택 이유 |
-| --- | --- | --- |
-| Frontend | React, Vite | 실시간 SPA를 빠르게 개발하고 사용자 상태 변화에 즉시 반응 |
-| Backend | Python, FastAPI | 비동기 API와 WebSocket 로직을 한 흐름으로 구현 |
-| Realtime | Native WebSocket | 의존성을 줄이고 이벤트 프로토콜을 명확하게 관리 |
-| Database | PostgreSQL, SQLAlchemy, Alembic | 관계·제약조건 중심의 데이터 설계와 안전한 마이그레이션 |
-| Local Infra | Docker, Docker Compose | 팀원이 같은 환경을 빠르게 구성 |
-| Deployment | Kubernetes, Nginx | 컨테이너 운영, 트래픽 분산, 확장 기반 마련 |
-| CI/CD | GitHub Actions | 테스트·빌드·배포 작업 자동화 |
+### 6.1 ASOS 데이터 전처리
 
-## 개발 원칙
+ASOS 데이터는 시간 단위 자료를 일 단위 자료로 변환하였다.
 
-- 모든 게임 결과와 시간 판정은 **서버를 단일 기준**으로 삼습니다.
-- 같은 입력이 재전송되어도 한 번만 반영되도록 멱등성을 보장합니다.
-- 익명 게임에서는 투표자 정보를 일반 응답과 화면에 노출하지 않습니다.
-- 실시간 애니메이션 프레임은 저장하지 않고, 복구에 필요한 회차와 최종 결과만 저장합니다.
-- 방장이 이탈하거나 방이 만료되면 참여자에게 상태를 알리고 관련 데이터를 안전하게 정리합니다.
+전처리 과정은 다음과 같다.
 
-## 프로젝트 진행 현황
+1. 연도별 ASOS CSV 파일 불러오기
+2. 필요한 기상 변수만 선택
+3. 컬럼명 영어로 변경
+4. 날짜 및 시간 형식 변환
+5. 강수량 결측치는 무강수로 판단하여 0으로 처리
+6. 일사량 결측치는 야간 무일사로 판단하여 0으로 처리
+7. 일 단위 평균, 최댓값, 최솟값, 합계 변수 생성
 
-> 2026-07-28 기준
+### 6.2 DMS 모기포집량 데이터 전처리
 
-- [x] 프로젝트 기획 및 6종 미니게임 규칙 정의
-- [x] 사용자 흐름, 와이어프레임, 화면 설계
-- [x] 기술 스택 선정
-- [ ] REST API · WebSocket 명세 최종 확정
-- [ ] 데이터 모델링 및 마이그레이션
-- [ ] 프론트엔드 · 백엔드 구현
-- [ ] CI/CD 및 배포 환경 구성
-- [ ] QA/QC · 통합 테스트
+DMS 데이터는 연도별 파일을 통합하고, 날짜 및 수치형 데이터를 정리하였다.
 
-## 협업 영역
+전처리 과정은 다음과 같다.
 
-| 영역 | 주요 책임 |
-| --- | --- |
-| PM · QA · Test | 요구사항 관리, 일정 조율, 품질 기준 및 테스트 |
-| Design | 사용자 흐름, 화면 설계, 디자인 시스템 및 인터랙션 |
-| Frontend | 대기방·게임 UI, 실시간 상태 반영, 클라이언트 연출 |
-| API · WebSocket | REST API, 실시간 이벤트 계약, 인증·권한 |
-| Backend Logic | 방·참여자·게임 상태 머신과 서버 판정 |
-| Database | 데이터 모델, 제약조건, 트랜잭션, 마이그레이션 |
-| Docker · Kubernetes | 개발 환경, 배포, 라우팅, 운영 자동화 |
+1. 연도별 DMS 모기포집량 파일 불러오기
+2. 날짜 컬럼 변환
+3. 쉼표가 포함된 숫자 데이터 정리
+4. 실제 일별 데이터만 추출
+5. 연도, 월, 일 변수 생성
+6. 2015년부터 2025년까지 세로 방향으로 통합
 
-## 문서
+### 6.3 ASOS-DMS 데이터 병합
 
-- [프로젝트 허브 · Notion](https://app.notion.com/p/7-28-e6fde0c692b883b18f3d019ed917e9b8?source=copy_link)
-- [UI/UX 디자인 · Figma](https://www.figma.com/design/IIqIz0uigrSQJnyTDKDsg6/%EB%AA%B0%EC%9E%85-%EB%94%94%EC%9E%90%EC%9D%B8?node-id=0-1)
-- [프로젝트 조직 · GitHub](https://github.com/SunMoonUniv)
+ASOS 일 단위 데이터와 DMS 모기포집량 데이터를 날짜 기준으로 병합하였다.
+
+병합 방식은 두 가지로 생성하였다.
+
+| 파일          | 설명                        |
+| ----------- | ------------------------- |
+| left merge  | DMS 날짜를 기준으로 전체 날짜 유지     |
+| inner merge | ASOS와 DMS가 모두 존재하는 날짜만 유지 |
+
+모델링과 EDA에는 ASOS와 DMS가 모두 존재하는 `inner merge` 데이터를 사용하였다.
 
 ---
 
-<p align="center">
-  <strong>어색한 침묵 대신, 모두가 웃으며 납득하는 선택.</strong><br />
-  MODU-PICK
-</p>
+## 7. 파생변수 생성
+
+모기 발생은 당일 기상 조건뿐만 아니라 이전 며칠간의 환경 영향을 받을 수 있다. 따라서 다음과 같은 파생변수를 생성하였다.
+
+### 7.1 날짜 기반 변수
+
+| 변수명          | 설명          |
+| ------------ | ----------- |
+| year         | 연도          |
+| month        | 월           |
+| day          | 일           |
+| day_of_year  | 연중 몇 번째 날인지 |
+| week_of_year | 연중 몇 번째 주인지 |
+| day_of_week  | 요일          |
+| season       | 계절          |
+| month_sin    | 월의 주기성 반영   |
+| month_cos    | 월의 주기성 반영   |
+
+### 7.2 Lag 변수
+
+기상 변수에 대해 1일 전, 3일 전, 7일 전 값을 생성하였다.
+
+예시:
+
+```text
+temp_mean_lag1
+temp_mean_lag3
+temp_mean_lag7
+rain_sum_lag1
+rain_sum_lag3
+rain_sum_lag7
+```
+
+### 7.3 Rolling 변수
+
+최근 3일, 7일 동안의 평균 또는 누적값을 생성하였다.
+
+| 변수 유형                       | 처리 방식        |
+| --------------------------- | ------------ |
+| 기온, 습도, 풍속, 일사량, 지면온도, 지중온도 | 최근 3일/7일 평균  |
+| 강수량, 강수 시간                  | 최근 3일/7일 누적값 |
+
+### 7.4 이전 모기포집량 변수
+
+모기 발생량은 이전 발생량과도 관련될 수 있으므로 다음 변수를 추가하였다.
+
+```text
+mosquito_count_lag1
+mosquito_count_lag3
+mosquito_count_lag7
+mosquito_count_3d_mean
+mosquito_count_7d_mean
+```
+
+---
+
+## 8. 모델링 방법
+
+본 프로젝트에서는 회귀 모델을 사용하여 일별 모기포집량을 예측하였다.
+
+사용한 모델은 다음과 같다.
+
+| 모델                          | 설명                   |
+| --------------------------- | -------------------- |
+| Baseline Mean               | 평균값을 예측하는 기준 모델      |
+| Linear Regression           | 선형 회귀 모델             |
+| Ridge Regression            | L2 정규화를 적용한 선형 회귀 모델 |
+| Random Forest Regressor     | 여러 결정트리를 사용하는 앙상블 모델 |
+| Gradient Boosting Regressor | 순차적으로 오차를 줄이는 부스팅 모델 |
+
+---
+
+## 9. 평가 지표
+
+모델 성능은 다음 지표를 기준으로 평가하였다.
+
+| 지표   | 설명                    |
+| ---- | --------------------- |
+| MAE  | 실제값과 예측값 차이의 절댓값 평균   |
+| RMSE | 큰 오차에 더 민감한 평균 제곱근 오차 |
+| R²   | 모델의 설명력               |
+
+해석 기준은 다음과 같다.
+
+| 상황                                            | 해석                              |
+| --------------------------------------------- | ------------------------------- |
+| Baseline보다 RMSE가 낮음                           | 단순 평균 예측보다 의미 있는 모델             |
+| R²가 0보다 큼                                     | 평균 예측보다 설명력이 있음                 |
+| R²가 음수                                        | 평균 예측보다 성능이 낮음                  |
+| Random Forest 또는 Gradient Boosting이 선형회귀보다 좋음 | 비선형 관계가 존재할 가능성 있음              |
+| 변수 중요도에서 온도·월·지중온도가 높음                        | 계절성과 온도 요인이 중요할 가능성 있음          |
+| 강수량 중요도가 낮음                                   | 당일 강수량보다 지연 효과 변수가 더 중요할 가능성 있음 |
+
+---
+
+## 10. 전체 분석 흐름
+
+```text
+원본 데이터 수집
+        ↓
+ASOS 기상 데이터 전처리
+        ↓
+DMS 모기포집량 데이터 전처리
+        ↓
+날짜 기준 데이터 병합
+        ↓
+결측치 및 이상치 확인
+        ↓
+날짜 기반 파생변수 생성
+        ↓
+Lag / Rolling 파생변수 생성
+        ↓
+학습 데이터와 테스트 데이터 분리
+        ↓
+모델 학습
+        ↓
+2024년, 2025년 데이터로 성능 평가
+        ↓
+모델별 성능 비교
+        ↓
+변수 중요도 분석
+        ↓
+서비스 적용 가능성 검토
+```
+
+---
+
+## 11. 주요 결과 파일
+
+| 파일명                                             | 설명                      |
+| ----------------------------------------------- | ----------------------- |
+| `asos_selected_hourly_2015_2025.csv`            | ASOS 시간 단위 통합 데이터       |
+| `asos_selected_daily_2015_2025.csv`             | ASOS 일 단위 집계 데이터        |
+| `dms_mosquito_daily_2015_2025.csv`              | DMS 모기포집량 통합 데이터        |
+| `dms_asos_daily_inner_2015_2025.csv`            | ASOS-DMS 공통 날짜 병합 데이터   |
+| `dms_asos_train_2015_2023_clean.csv`            | 학습용 정제 데이터              |
+| `dms_asos_test_2024_clean.csv`                  | 2024년 테스트 데이터           |
+| `dms_asos_test_2025_clean.csv`                  | 2025년 테스트 데이터           |
+| `model_metrics.csv`                             | 기본 모델 성능 결과             |
+| `model_metrics_lag_rolling.csv`                 | Lag/Rolling 개선 모델 성능 결과 |
+| `model_predictions_2024_lag_rolling.csv`        | 2024년 예측 결과             |
+| `model_predictions_2025_lag_rolling.csv`        | 2025년 예측 결과             |
+| `best_model_feature_importance_lag_rolling.csv` | 최적 모델 변수 중요도            |
+
+---
+
+## 12. 기술 스택
+
+### Language
+
+* Python
+
+### Data Processing
+
+* pandas
+* numpy
+
+### Machine Learning
+
+* scikit-learn
+
+### Visualization
+
+* matplotlib
+
+### Development Environment
+
+* Google Colab
+* GitHub
+
+---
+
+## 13. 실행 방법
+
+### 13.1 라이브러리 설치
+
+```bash
+pip install -r requirements.txt
+```
+
+또는 Google Colab 환경에서는 다음과 같이 필요한 라이브러리를 설치한다.
+
+```python
+!pip install pandas numpy scikit-learn matplotlib
+```
+
+### 13.2 데이터 전처리 실행
+
+```python
+python src/preprocessing.py
+```
+
+### 13.3 파생변수 생성
+
+```python
+python src/feature_engineering.py
+```
+
+### 13.4 모델 학습 및 평가
+
+```python
+python src/modeling.py
+```
+
+---
+
+## 14. requirements.txt 예시
+
+```text
+pandas
+numpy
+scikit-learn
+matplotlib
+openpyxl
+```
+
+---
+
+## 15. 프로젝트 차별점
+
+본 프로젝트는 단순히 당일 기상 데이터만 사용하는 것이 아니라, 모기 발생의 생태적 특성을 고려하여 이전 며칠간의 기상 조건을 반영하였다.
+
+특히 다음 요소를 추가하여 예측 성능 향상을 시도하였다.
+
+* 1일, 3일, 7일 전 기상 변수
+* 최근 3일, 7일 평균 기상 변수
+* 최근 3일, 7일 누적 강수량
+* 이전 모기포집량 기반 변수
+* 월별 주기성을 반영한 sin/cos 변수
+* 2024년과 2025년을 분리한 다년도 테스트 평가
+
+이를 통해 특정 연도에만 맞춰진 모델이 아니라, 다른 연도에서도 어느 정도 일반화 가능한 모델인지 확인하고자 하였다.
+
+---
+
+## 16. 한계점
+
+본 프로젝트에는 다음과 같은 한계가 있다.
+
+1. 모기포집량은 관측 장비 위치, 관리 상태, 주변 환경 변화에 영향을 받을 수 있다.
+2. 기상 데이터는 서울 전체를 대표하는 관측값이므로 지역별 세부 차이를 반영하기 어렵다.
+3. 2024년과 2025년 테스트 결과가 다르게 나타날 수 있어, 연도별 기상 특성에 따른 모델 안정성 검토가 필요하다.
+4. 현재 모델은 실제 서비스 단계의 예보 등급이 아니라, 일별 모기포집량 예측에 초점을 두고 있다.
+5. 방역 작업, 하천·공원·녹지, 인구 밀집도, 고인 물 발생 가능 지역 등의 공간 데이터는 아직 반영하지 못했다.
+
+---
+
+## 17. 향후 개선 방향
+
+향후 프로젝트에서는 다음과 같은 방향으로 개선할 수 있다.
+
+* 모기포집량 예측값을 예보 등급으로 변환
+* 서울시 자치구 단위 공간 데이터 추가
+* 하천, 공원, 녹지, 주거 밀집 지역 데이터 반영
+* 방역 일정 데이터 반영
+* 고온다습 조건 및 장마철 패턴 변수 추가
+* XGBoost, LightGBM 등 추가 모델 실험
+* 시계열 교차검증 적용
+* 웹 또는 앱 서비스와 연동
+* 사용자 위치 기반 모기 위험도 알림 기능 구현
+
+---
+
+## 18. 서비스 확장 아이디어
+
+본 모델은 향후 다음과 같은 서비스로 확장할 수 있다.
+
+```text
+사용자 위치 입력
+        ↓
+해당 날짜의 기상 데이터 수집
+        ↓
+모기 발생량 예측
+        ↓
+모기 위험도 등급 변환
+        ↓
+앱 또는 웹 화면에 표시
+        ↓
+예방 행동 안내 제공
+```
+
+예상 서비스 기능은 다음과 같다.
+
+* 오늘의 모기 위험도 표시
+* 주간 모기 발생 예측
+* 지역별 모기 위험도 지도
+* 야외활동 전 모기 주의 알림
+* 모기 발생 위험이 높은 날 예방수칙 제공
+
+---
+
+## 19. 팀 역할 예시
+
+| 역할        | 담당 내용                        |
+| --------- | ---------------------------- |
+| 데이터 전처리   | ASOS/DMS 데이터 정리, 병합, 결측치 처리  |
+| EDA 및 시각화 | 모기포집량 추세 분석, 기상 변수 관계 분석     |
+| 모델링       | 머신러닝 모델 학습, 성능 평가, 변수 중요도 분석 |
+| 서비스 기획    | 예보 등급화, 앱/웹 화면 구성, 사용자 기능 설계 |
+
+---
+
+## 20. 프로젝트 요약
+
+본 프로젝트는 서울시 모기포집량 데이터를 예측하기 위해 기상 데이터와 모기포집량 데이터를 통합하고, 다양한 머신러닝 회귀 모델을 비교한 프로젝트이다.
+
+단순한 당일 기상 변수뿐만 아니라 lag 변수와 rolling 변수를 추가하여 모기 발생에 영향을 줄 수 있는 지연 효과를 반영하였다. 또한 2024년과 2025년 데이터를 별도의 테스트셋으로 사용하여 모델의 일반화 가능성을 평가하였다.
+
+최종적으로 본 프로젝트는 데이터 기반 모기예보제의 가능성을 확인하고, 향후 웹/앱 서비스로 확장할 수 있는 기반을 마련하는 것을 목표로 한다.
